@@ -1,6 +1,4 @@
-from typing import Dict
-
-encoding_data: Dict[str, int] = {
+encoding_data = {
     "a": "z",
     "b": "y",
     "c": "x",
@@ -29,13 +27,30 @@ encoding_data: Dict[str, int] = {
     "z": "a"
 }
 
-def encode_string(text: str) -> str:
-    length: int = len(text);
+def get_encoded_string(text):
+
+    length = len(text)
+    string_array = []
+
     for i in range(length):
         current_letter = text[i]
         if current_letter in encoding_data:
-            text.replace(current_letter, encoding_data[current_letter])
+            string_array.append(encoding_data[current_letter])
         elif current_letter.lower() in encoding_data:
-            text.replace(current_letter, encoding_data[current_letter.lower()].upper())
+            string_array.append(encoding_data[current_letter.lower()].upper())
+        elif current_letter == " ":
+            string_array.append("_")
         else:
-            print("encoding failed")
+            continue
+    
+    new_string = str(string_array)
+    refined_string = new_string.replace("'", "").replace(",", "").replace("[", "").replace("]", "").replace(" ", "").replace("_", " ")
+    return refined_string
+
+def run_script():
+    unencoded_string = input("Enter a string: ")
+    encoded_string = get_encoded_string(unencoded_string)
+    print(encoded_string)
+
+
+run_script()
